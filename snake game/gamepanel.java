@@ -96,28 +96,28 @@ public class gamepanel extends JPanel implements ActionListener {
         GameOver(g);
     }
     }
-    public void move(){
-        for(int i=bodyParts;i>0;i--){
-            x[i]=x[i-1];
-            y[i]=y[i-1];
-
+    public void move() {
+        for (int i = bodyParts; i > 0; i--) {
+            x[i] = x[i - 1];
+            y[i] = y[i - 1];
         }
-        switch(direction){
+    
+        switch (direction) {
             case 'U':
-                y[0]=y[0]-Unit_size;
+                y[0] = (y[0] - Unit_size + Screen_height) % Screen_height;
                 break;
             case 'D':
-                y[0]=y[0]+Unit_size;
+                y[0] = (y[0] + Unit_size) % Screen_height;
                 break;
             case 'L':
-                x[0]=x[0]-Unit_size;
+                x[0] = (x[0] - Unit_size + Screen_width) % Screen_width;
                 break;
             case 'R':
-                x[0]=x[0]+Unit_size;
+                x[0] = (x[0] + Unit_size) % Screen_width;
                 break;
-
         }
     }
+    
     public void checkApple(){
         if((x[0]== appleX) && (y[0] == appleY) ){
 
