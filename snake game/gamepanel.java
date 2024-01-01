@@ -31,6 +31,7 @@ public class gamepanel extends JPanel implements ActionListener {
        random = new Random();
        this.setPreferredSize(new Dimension(Screen_width,Screen_height));
        this.setBackground(Color.pink);
+       this.setLayout(null); // Set layout manager to null
        this.setFocusable(true);
        this.addKeyListener(new MyKeyAdapter());
        StartGame();
@@ -142,19 +143,35 @@ public class gamepanel extends JPanel implements ActionListener {
         }
         
     }
-    public void GameOver(Graphics g){
-        //Game over text 
+    public void GameOver(Graphics g) {
+        // Game over text 
         g.setColor(Color.red);
         g.setFont(new Font("frogie", Font.PLAIN, 70));
         FontMetrics metrics1 = getFontMetrics(g.getFont());
-        g.drawString("GAME OVER",(Screen_width-metrics1.stringWidth("GAME OVER"))/2, Screen_height/2);
+        g.drawString("GAME OVER", (Screen_width - metrics1.stringWidth("GAME OVER")) / 2, Screen_height / 2);
         g.setColor(Color.red);
         g.setFont(new Font("frogie", Font.PLAIN, 40));
         FontMetrics metrics2 = getFontMetrics(g.getFont());
-        g.drawString("SCORE :" + appleEATEN,(Screen_width-metrics2.stringWidth("SCORE :" + appleEATEN))/2, g.getFont().getSize());
-   
+        g.drawString("SCORE :" + appleEATEN, (Screen_width - metrics2.stringWidth("SCORE :" + appleEATEN)) / 2, g.getFont().getSize());
+    
+        // Remove existing components before adding the replay button
+        removeAll();
+        JButton replayButton = new JButton("Replay");
+        replayButton.setFont(new Font("frogie", Font.PLAIN, 30));
+        replayButton.setSize(150, 50);
+        replayButton.setLocation((Screen_width - replayButton.getWidth()) / 2, Screen_height / 2 + 100);
+    
+        replayButton.addActionListener(e -> {
+            resetGame(); // Call the method to reset the game
+        });
+    
+        // Add the replay button to the panel
+        add(replayButton);
+        replayButton.setVisible(true);
+    
+        replayButton.requestFocusInWindow();
     }
-        
+    
     
     public void actionPerformed(ActionEvent e) {
         if(running){
@@ -193,5 +210,21 @@ public class gamepanel extends JPanel implements ActionListener {
         }
         }
 
-
+        public void resetGame() {
+            bodyParts = 4;
+            appleEATEN = 0;
+            direction = 'R';
+            // Reset the position of the snake
+            for (int i = 0; i < bodyParts; i++) {
+                x[i] = -i * Unit_size;
+                y[i] = 0;
+            }
+        
+            running = true;
+            
+            repaint(); // Repaint to update the display
+            
+            StartGame();
+        }
+        
 }
