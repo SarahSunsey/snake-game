@@ -209,22 +209,34 @@ public class gamepanel extends JPanel implements ActionListener {
             }
         }
         }
-
         public void resetGame() {
             bodyParts = 4;
             appleEATEN = 0;
             direction = 'R';
-            // Reset the position of the snake
-            for (int i = 0; i < bodyParts; i++) {
+            running = false;
+            timer.stop();
+        
+            // Reset the snake position
+             for (int i = 0; i < bodyParts; i++) {
                 x[i] = -i * Unit_size;
                 y[i] = 0;
             }
         
-            running = true;
-            
-            repaint(); // Repaint to update the display
-            
+            // Remove the replay button
+            removeAll();
+        
+            // Restart the game
             StartGame();
+        
+            // Re-add the KeyListener
+            this.addKeyListener(new MyKeyAdapter());
+        
+            // Request focus for the panel to ensure it receives key events
+            this.requestFocusInWindow();
+        
+            repaint();
         }
+        
+    
         
 }
